@@ -85,7 +85,8 @@ const model = {
 }; //endModel
 
 export const appController = {
-  fetchRSSFeed(url) {
+  
+    fetchRSSFeed(url) {
     const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
       url
     )}`;
@@ -93,8 +94,21 @@ export const appController = {
     return axios
       .get(proxyUrl)
       .then((response) => response.data.contents)
-      .catch(() => {
-        throw new Error("Failed to fetch RSS feed");
+      .catch((error) => {
+        if (error.response) {
+            // Server responded with a status other than 2xx
+            console.error('Server Error:', error.response.status);
+            throw new Error(`Server error: ${error.response.status}`);
+          } else if (error.request) {
+            // Request was made but no response received (network error)
+            console.error('Network Error:', error.message);
+            throw new Error('Ошибка сети');
+          } else {
+            // Something happened in setting up the request
+            console.error('Error:', error.message);
+            throw new Error("Failed to fetch RSS feed");
+          }
+        
       });
   },
 
