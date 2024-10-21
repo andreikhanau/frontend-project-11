@@ -102,6 +102,8 @@ export const appController = {
           } else if (error.request) {
             // Request was made but no response received (network error)
             console.error('Network Error:', error.message);
+            model.watchedState.urlStatus = getTxt("invalidURLStatus");
+            model.watchedState.statusMessage = getTxt('Ошибка сети');
             throw new Error('Ошибка сети');
           } else {
             // Something happened in setting up the request
