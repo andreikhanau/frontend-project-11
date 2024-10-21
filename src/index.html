@@ -6,9 +6,9 @@
       content="width=device-width,initial-scale=1,shrink-to-fit=no"
     />
     <title>Hexlet Frontend Project</title>
-    <script defer="defer" src="./index.js"></script>
-  </head>
-  <body class="d-flex flex-column min-vh-100">
+</head>
+  
+<body class="d-flex flex-column min-vh-100">
     <div
       class="modal fade"
       id="modal"
@@ -56,6 +56,11 @@
             <p class="lead">
               Начните читать RSS сегодня! Это легко, это красиво.
             </p>
+            <p><ul>
+                <li>https://thecipherbrief.com/feed</li>
+                <li>https://rt.com/rss/news</li>
+                <li>http://lorem-rss.herokuapp.com/feed?unit=second</li>
+            </ul></p>
             <form action="" class="rss-form text-body">
               <div class="row">
                 <div class="col">
@@ -69,6 +74,7 @@
                       class="form-control w-100"
                       placeholder="ссылка RSS"
                       autocomplete="off"
+                      value="https://aljazeera.com/xml/rss/all.xml"
                     />
                     <label for="url-input">Ссылка RSS</label>
                   </div>
@@ -112,5 +118,6 @@
         </div>
       </div>
     </footer>
+    <script defer="defer" src="./index.js"></script>
   </body>
 </html>

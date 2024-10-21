@@ -3,11 +3,7 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/andreikhanau/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/andreikhanau/frontend-project-11/actions)",
   "main": "index.js",
-  "scripts": {
-    "Wdev": "npx webpack --mode development",
-    "Wprod": "npx webpack --mode production",
-    "Wserv": "npx webpack serve"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andreikhanau/frontend-project-11.git"
@@ -33,6 +29,10 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "i18next": "^23.16.0",
+    "on-change": "^5.0.1",
+    "yup": "^1.4.0"
   }
 }
