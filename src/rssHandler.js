@@ -76,11 +76,11 @@ const model = {
   validationSchema: Yup.object().shape({
     url: Yup.string()
       .url(getTxt("yupInvalidFormat"))
-      .required(getTxt("yupLackOfURL")),
+      //.required(getTxt("yupLackOfURL")),
   }),
   errorHandler() {
     this.watchedState.urlStatus = getTxt("invalidURLStatus");
-    this.watchedState.statusMessage = getTxt("Ссылка должна быть валидным URL");
+    this.watchedState.statusMessage = getTxt("rssNotValid");
   },
 }; //endModel
 
@@ -90,7 +90,6 @@ export const appController = {
     const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
       url
     )}`;
-
     return axios
       .get(proxyUrl)
       .then((response) => response.data.contents)
@@ -103,8 +102,8 @@ export const appController = {
             // Request was made but no response received (network error)
             console.error('Network Error:', error.message);
             model.watchedState.urlStatus = getTxt("invalidURLStatus");
-            model.watchedState.statusMessage = getTxt('Ошибка сети');
-            throw new Error('Ошибка сети');
+            model.watchedState.statusMessage = getTxt("networkError");
+            throw new Error(getTxt("networkError"));
           } else {
             // Something happened in setting up the request
             console.error('Error:', error.message);
@@ -213,7 +212,13 @@ export const appController = {
       e.preventDefault();
       const formData = new FormData(this.getForm);
       const getProvidedLink = formData.get("url");
-      model.validationSchema
+      console.log(getProvidedLink)
+      if (getProvidedLink.length === 0){
+        model.watchedState.urlStatus = getTxt("invalidURLStatus");
+        model.watchedState.statusMessage = getTxt("isEmpty");
+      } else 
+      {
+        model.validationSchema
         .validate({ url: getProvidedLink })
         .then(() => {
           model.processNewFeeds(getProvidedLink);
@@ -222,7 +227,7 @@ export const appController = {
           model.errorHandler();
         });
       setTimeout(() => model.startProcessingWithTimeout(), 5000);
-      model.initWatcher();
+      model.initWatcher();}
     }; //submitHandler
 
     this.getForm.addEventListener("submit", submitHandler);
