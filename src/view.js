@@ -1,5 +1,4 @@
 import ru from "./locales/ru";
-import { getTxt } from "./functions";
 import i18next from "i18next";
 i18next.init(ru);
 import { appController } from "./rssHandler";
