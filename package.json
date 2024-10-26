@@ -4,6 +4,7 @@
   "description": "[![Actions Status](https://github.com/andreikhanau/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/andreikhanau/frontend-project-11/actions)",
   "main": "index.js",
   "scripts": {},
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/andreikhanau/frontend-project-11.git"
