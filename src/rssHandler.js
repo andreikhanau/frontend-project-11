@@ -228,8 +228,9 @@ export const appController = {
         .then(() => {
           model.processNewFeeds(getProvidedLink);
         })
-        .catch((error) => {
-          model.watchedState.error = error;
+        .catch(() => {
+          model.watchedState.error = getTxt("rssNotValid");
+          console.log(model.watchedState.error)
         });
       setTimeout(() => model.startProcessingWithTimeout(), 5000);
       model.initWatcher();}
