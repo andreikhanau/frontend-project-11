@@ -12,7 +12,8 @@ export default {
       noValidRss: "Ресурс не содержит валидный RSS",
       rssNotValid: "Ссылка должна быть валидным URL",
       networkError: "Ошибка сети",
-      isEmpty: "Не должно быть пустым"
+      isEmpty: "Не должно быть пустым",
+      parseError: "Error parsing XML"
     }
     }
    }

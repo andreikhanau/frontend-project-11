@@ -76,12 +76,12 @@ const view = {
   },
 
   render(state) {
-    if (state.urlStatus === getTxt("invalidURLStatus")) {
+    if (state.error) {
       this.getStatusPlace.classList.add("text-danger");
       this.getStatusPlace.classList.remove("text-success");
       this.getInput.classList.add("is-invalid");
       this.getInput.classList.remove("is-valid");
-      this.getStatusPlace.textContent = state.statusMessage;
+      this.getStatusPlace.textContent = state.error;
       this.shadeLinks(state.clickedLinks);
     } else {
       this.getStatusPlace.classList.add("text-success");

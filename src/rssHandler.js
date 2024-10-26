@@ -17,6 +17,7 @@ const model = {
     feeds: [],
     posts: [],
     clickedLinks: [],
+    error: "",
   },
 
   watchedState: null,
@@ -35,14 +36,18 @@ const model = {
 
   updateFeeds(url) {
     appController.processRSSFeed(url).then((data) => {
-      reverseFeeds(data.posts).forEach((post) => {
+      if (data){
+        reverseFeeds(data.posts).forEach((post) => {
         const isPostExists = this.watchedState.posts.some(
           (existingPost) => existingPost.title === post.title
         );
         if (!isPostExists) {
           this.watchedState.posts.unshift(post);
+          this.watchedState.error = "";
         }
       });
+    }
+    else this.watchedState.urlStatus = getTxt("invalidURLStatus");
     });
   },
   processNewFeeds(url) {
@@ -56,13 +61,13 @@ const model = {
           reverseFeeds(data.posts).forEach((post) => {
             this.watchedState.posts.unshift(post);
           });
+          this.watchedState.error = "";
         } else {
           this.watchedState.urlStatus = getTxt("invalidURLStatus");
-          this.watchedState.statusMessage = getTxt("RSSAlreadyExists");
+          this.watchedState.error = getTxt("RSSAlreadyExists");
         }
       } else {
         this.watchedState.urlStatus = getTxt("invalidURLStatus");
-        this.watchedState.statusMessage = getTxt("noValidRss");
       }
     });
   },
@@ -80,7 +85,7 @@ const model = {
   }),
   errorHandler() {
     this.watchedState.urlStatus = getTxt("invalidURLStatus");
-    this.watchedState.statusMessage = getTxt("rssNotValid");
+    this.watchedState.statusMessage = this.state.error;
   },
 }; //endModel
 
@@ -96,17 +101,16 @@ export const appController = {
       .catch((error) => {
         if (error.response) {
             // Server responded with a status other than 2xx
-            console.error('Server Error:', error.response.status);
+            this.watchedState.error = error.response.status;
             throw new Error(`Server error: ${error.response.status}`);
           } else if (error.request) {
             // Request was made but no response received (network error)
-            console.error('Network Error:', error.message);
-            model.watchedState.urlStatus = getTxt("invalidURLStatus");
-            model.watchedState.statusMessage = getTxt("networkError");
+            model.watchedState.error = getTxt("networkError");
+            console.log(model.watchedState.error)
             throw new Error(getTxt("networkError"));
           } else {
             // Something happened in setting up the request
-            console.error('Error:', error.message);
+            model.watchedState.error = error.message;
             throw new Error("Failed to fetch RSS feed");
           }
         
@@ -118,7 +122,8 @@ export const appController = {
     const doc = parser.parseFromString(xmlString, "application/xml");
 
     if (doc.querySelector("parsererror")) {
-      throw new Error("Error parsing XML");
+      model.watchedState.error = "Error parsing XML";
+      throw new Error (getTxt("noValidRss"));
     }
 
     return doc;
@@ -157,7 +162,7 @@ export const appController = {
         return this.structureFeed(doc);
       })
       .catch((error) => {
-        console.error("Error processing RSS feed:", error.message);
+        model.watchedState.error = error.message;
         return null;
       });
   },
@@ -223,8 +228,8 @@ export const appController = {
         .then(() => {
           model.processNewFeeds(getProvidedLink);
         })
-        .catch(() => {
-          model.errorHandler();
+        .catch((error) => {
+          model.watchedState.error = error;
         });
       setTimeout(() => model.startProcessingWithTimeout(), 5000);
       model.initWatcher();}
