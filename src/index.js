@@ -1,3 +1,3 @@
-import appController from './rssHandler.js';
+import { appController } from './rssHandler.js';
 
 appController.init();

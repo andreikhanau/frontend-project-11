@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import i18next from 'i18next';
 import ru from './locales/ru.js';
-import appController from './rssHandler.js';
+import { appController } from './rssHandler.js';
 
 i18next.init(ru);
 

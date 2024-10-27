@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/no-cycle */
 import 'bootstrap/dist/css/bootstrap.css';
@@ -91,7 +91,7 @@ const model = {
   },
 }; // endModel
 
-export default {
+export const appController = {
 
   fetchRSSFeed(url) {
     const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
